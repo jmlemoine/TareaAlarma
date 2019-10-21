@@ -2,9 +2,6 @@ package com.example.tareaalarma;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-//import androidx.fragment.app.DialogFragment;
-//import android.support.v4.app.DialogFragment;
-//import android.app.TimePicker;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.widget.Button;
