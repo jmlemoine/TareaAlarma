@@ -24,6 +24,7 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
     private TextView mTextView;
+    public static final int NOTIFICATION_PERMISSION_CODE = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
             public void onClick(View v) {
                 DialogFragment timePicker = new TimePickerFragment();
                 timePicker.show(getSupportFragmentManager(), "time picker");
+
             }
         });
 
@@ -46,10 +48,9 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
             @Override
             public void onClick(View v) {
                 cancelAlarm();
+
             }
         });
-
-
 
     }
 
@@ -59,16 +60,16 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
         c.set(Calendar.MINUTE, minute);
         c.set(Calendar.SECOND, 0);
-
         updateTimeText(c);
         startAlarm(c);
+
     }
 
     private void updateTimeText(Calendar c) {
-        String timeText = "Alarm set for: ";
+        String timeText = "Alarma puesta para: ";
         timeText += DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
-
         mTextView.setText(timeText);
+
     }
 
     private void startAlarm(Calendar c) {
@@ -78,10 +79,11 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1);
+
         }
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
     }
 
@@ -89,8 +91,9 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-
         alarmManager.cancel(pendingIntent);
-        mTextView.setText("Alarm canceled");
+        mTextView.setText("Alarma canceleda");
+
     }
+    
 }
